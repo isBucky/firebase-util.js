@@ -1,6 +1,6 @@
 const { initializeApp: init } = require('firebase');
 
-class FirebaseUtility {
+class FirebaseUtil {
   constructor(options) {
     if (typeof options !== 'object') return new Error('Não é um objeto!');
     let { apiKey, databaseURL } = options;
@@ -25,7 +25,7 @@ class FirebaseUtility {
   async Ping() {
     if (!this.db) return null;
     let date = Date.now();
-    return this.get('FirebaseUtility').then(() => Date.now() - date);
+    return this.get('FirebaseUtil').then(() => Date.now() - date);
   }
   
   async Get(path) {
@@ -86,4 +86,4 @@ class FirebaseUtility {
   }
 }
 
-module.exports = FirebaseUtility;
+module.exports = FirebaseUtil;
