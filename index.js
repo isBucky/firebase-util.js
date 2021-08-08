@@ -2,20 +2,23 @@ const { initializeApp: init } = require('firebase');
 
 class FirebaseUtil {
   constructor(options) {
-    if (typeof options !== 'object') return new Error('Não é um objeto!');
+    if (!global.firebaseConnect && typeof options !== 'object') return new Error('Não é um objeto!');
     let { apiKey, databaseURL } = options;
-    if (!apiKey) return new TypeError('apiKey não foi definida!');
-    if (!databaseURL) return new TypeError('databaseURL não foi definida!');
+    if (!global.firebaseConnect && !apiKey) return new TypeError('apiKey não foi definida!');
+    if (!global.firebaseConnect && !databaseURL) return new TypeError('databaseURL não foi definida!');
     
     this.db = this._connectToDatabase(apiKey, databaseURL);
     this.version = require('./package.json').version;
     this.ping = this.Ping; this.get = this.Get;
     this.set = this.Set; this.del = this.Delete;
     this.upd = this.Update; this.has = this.Has;
+    this.math = this.Math;
   }
   
   _connectToDatabase(apiKey, databaseURL) {
     try {
+      if (global.firebaseConnect) return this.db;
+      global.firebaseConnect = true;
       return init({ apiKey, databaseURL }).database();
     } catch(e) {
       return new Error('Erro ao conectar ao banco de dados.');
@@ -23,7 +26,7 @@ class FirebaseUtil {
   }
   
   async Ping() {
-    if (!this.db) return null;
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
     let date = Date.now();
     return this.get('FirebaseUtil').then(() => Date.now() - date);
   }
@@ -68,7 +71,6 @@ class FirebaseUtil {
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     if (!value) return new TypeError('Você não definiu um valor!');
     if (typeof value !== 'object') return new TypeError('O valor deve ser um objeto!');
-    
     try {
       await this.db.ref(path).update(value);
       return true;
@@ -80,12 +82,58 @@ class FirebaseUtil {
   async Has(path) {
     if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
     if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
       let value = await this.get(path);
       if (!value) return null;
       else return true;
     } catch(e) {
       return new Error(e);
+    }
+  }
+  
+  async Math(path, simbol, number) {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    if (!simbol) return new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
+    if (typeof simbol !== 'string') return new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
+    if (!number) return new TypeError('Você não definiu um valor!');
+    if (isNaN(number)) return new TypeError('O valor definido não é um número!');
+    switch (simbol) {
+      case '+':
+        let val1 = await this.get(path);
+        if (!val1) val1 = 0;
+        this.set(path, Number(val1) + Number(number));
+        return Number(val1) + Number(number);
+        break;
+      case '-':
+        let val2 = await this.get(path);
+        if (!val2) val2 = 0;
+        this.set(path, Number(val2) - Number(number));
+        return Number(val2) - Number(number);
+        break;
+      case '/':
+        let val3 = await this.get(path);
+        if (!val3) val3 = 0;
+        this.set(path, Number(val3) / Number(number));
+        return Number(val3) / Number(number);
+        break;
+      case '*':
+        let val4 = await this.get(path);
+        if (!val4) val4 = 0;
+        this.set(path, Number(val4) * Number(number));
+        return Number(val4) * Number(number);
+        break;
+      case '%':
+        let val5 = await this.get(path);
+        if (!val5) val5 = 0;
+        this.set(path, Number(val5) % Number(number));
+        return Number(val5) % Number(number);
+        break;
+      default:
+        throw new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
+        break;
     }
   }
 }

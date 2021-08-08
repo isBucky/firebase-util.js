@@ -10,30 +10,52 @@
   </p>
 </div>
 
-# Instalação:
+# 📦 Instalação:
 ```sh
 npm i firebase-util.js
 ```
-# Conexão:
+# 📡 Conexão:
+### Existe dois tipos de conexão com a database:
+#### Primeira opção:
 ```js
 const FirebaseUtil = require('firebase-util.js');
 const db = new FirebaseUtil({
-  apiKey: 'Sua API do banco de dados',
-  databaseURL: 'Sua URL do banco de dados'
+  apiKey: "...",
+  authDomain: "...",
+  databaseURL: "...",
+  projectId: "...",
+  storageBucket: "...",
+  messagingSenderId: "...",
+  appId: "...",
+  measurementId: "..."
 });
 ```
-# Funções:
+
+#### Segunda opção:
+```js
+const FirebaseUtil = require('firebase-util.js');
+const db = new FirebaseUtil({
+  apiKey: '...',
+  databaseURL: '...'
+});
+```
+
+### ⚠️ apiKey e databaseURL são obrigatórios!
+
+# 🧰 Funções:
 ```js
 (async() => {
   await db.ping();
   await db.get('caminho');
-  await db.set('caminho', 'value');
+  await db.set('caminho', 'valor');
   await db.del('caminho');
-  await db.upd('caminho', 'value');
+  await db.upd('caminho', 'valor em objeto');
   await db.has('caminho');
+  await db.math('caminho', 'operador', 'valor em número');
 })();
 ```
-# Exemplos:
+
+# 👷 Exemplos:
 ```js
 (async() => {
   let ping = await db.ping();
@@ -44,7 +66,7 @@ const db = new FirebaseUtil({
   let money1 = await db.get('bucky/money');
   console.log(value);// bucky: money: 20
   
-  await db.upd('bucky/money', 30);// bucky: money: 30
+  await db.upd('bucky', { money: 30 });// bucky: money: 30
   
   await db.del('bucky/money');// Deleta oque foi pedido.
   
