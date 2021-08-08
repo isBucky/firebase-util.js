@@ -1,0 +1,23 @@
+{
+  "name": "firebase-utility",
+  "version": "1.0.0",
+  "description": "Uma simples npm que facilita a utilidade de uso da firebase realtime",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B4CKY0FC/firebase-utility.git"
+  },
+  "keywords": [
+    "firebase", "firebase-util", "firebase-util",
+    "fb", "util", "db", "database"
+  ],
+  "author": "B4CKY0FC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/B4CKY0FC/firebase-utility/issues"
+  },
+  "homepage": "https://github.com/B4CKY0FC/firebase-utility#readme",
+  "dependencies": {
+    "firebase": "^8.9.0"
+  }
+}
