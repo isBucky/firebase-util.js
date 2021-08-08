@@ -125,12 +125,6 @@ class FirebaseUtil {
         this.set(path, Number(val4) * Number(number));
         return Number(val4) * Number(number);
         break;
-      case '%':
-        let val5 = await this.get(path);
-        if (!val5) val5 = 0;
-        this.set(path, Number(val5) % Number(number));
-        return Number(val5) % Number(number);
-        break;
       default:
         throw new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
         break;

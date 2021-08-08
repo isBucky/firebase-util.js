@@ -59,20 +59,25 @@ const db = new FirebaseUtil({
 ```js
 (async() => {
   let ping = await db.ping();
-  console.log(ping);// Latência da database
+  console.log(ping); // Latência.
   
-  await db.set('bucky/money', 20);// bucky: money: 20
+  await db.set('bucky/money', 50); // True
+  let money = await db.get('bucky/money');
+  console.log(money); // 50
   
-  let money1 = await db.get('bucky/money');
-  console.log(value);// bucky: money: 20
+  await db.upd('bucky', { money: 60 }); // True
+  let money2 = await db.get('bucky/money');
+  console.log(money2); // 60
   
-  await db.upd('bucky', { money: 30 });// bucky: money: 30
+  await db.math('bucky/money', '+', 60); // 60
+  await db.math('bucky/money', '-', 20); // 40
+  await db.math('bucky/money', '/', 2); // 20
+  await db.math('bucky/money', '*', 4); // 80
+  let money3 = await db.get('bucky/money');
+  console.log(money3); // 80
   
-  await db.del('bucky/money');// Deleta oque foi pedido.
+  let money4 = await db.has('bucky/money');
+  console.log(money4); // True
   
-  let money2 = await db.has('bucky/money');
-  console.log(money2);
-  // False: sem dinheiro.
-  // True: com dinheiro.
-});
-```
+  await db.del('bucky'); // True
+})();```
