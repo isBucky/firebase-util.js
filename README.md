@@ -51,7 +51,7 @@ const db = new FirebaseUtil({
   await db.del('caminho');
   await db.upd('caminho', 'valor em objeto');
   await db.has('caminho');
-  await db.math('caminho', 'operador', 'valor em número');
+  await db.math('caminho', 'operador', 'valor numérico');
 })();
 ```
 
