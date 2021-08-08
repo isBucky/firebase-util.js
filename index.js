@@ -27,7 +27,7 @@ class FirebaseUtil {
   async Ping() {
     if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
     let date = Date.now();
-    return this.get('FirebaseUtil').then(() => Date.now() - date);
+    return this.db.ref('FirebaseUtil').once('value').then(() => Date.now() - date);
   }
   
   async Get(path) {
