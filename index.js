@@ -69,7 +69,7 @@ class FirebaseUtil {
     try {
       return await this.db.ref(path).update(value);
     } catch(e) {
-      return Error(e);
+      return new Error(e);
     }
   }
   
@@ -81,7 +81,7 @@ class FirebaseUtil {
       if (!value) return null;
       else return true;
     } catch(e) {
-      return Error(e);
+      return new Error(e);
     }
   }
 }
