@@ -1,4 +1,4 @@
-const { initializeApp: init } = require('firebase');
+const { initializeApp: init, database } = require('firebase');
 
 class FirebaseUtil {
   constructor(options) {
@@ -16,7 +16,7 @@ class FirebaseUtil {
   
   _connectToDatabase(options) {
     try {
-      if (global.firebaseConnect) return this.db;
+      if (global.firebaseConnect) return database();
       global.firebaseConnect = true;
       return init(options).database();
     } catch(e) {
