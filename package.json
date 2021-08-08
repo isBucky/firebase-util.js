@@ -1,6 +1,6 @@
 {
   "name": "firebase-util.js",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Uma simples npm que facilita a utilidade de uso da firebase realtime",
   "main": "index.js",
   "repository": {

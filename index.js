@@ -7,7 +7,7 @@ class FirebaseUtil {
     if (!global.firebaseConnect && !apiKey) return new TypeError('apiKey não foi definida!');
     if (!global.firebaseConnect && !databaseURL) return new TypeError('databaseURL não foi definida!');
     
-    this.db = this._connectToDatabase(apiKey, databaseURL);
+    this.db = this._connectToDatabase(options);
     this.version = require('./package.json').version;
     this.ping = this.Ping; this.get = this.Get;
     this.set = this.Set; this.del = this.Delete;
@@ -15,11 +15,11 @@ class FirebaseUtil {
     this.math = this.Math;
   }
   
-  _connectToDatabase(apiKey, databaseURL) {
+  _connectToDatabase(options) {
     try {
       if (global.firebaseConnect) return this.db;
       global.firebaseConnect = true;
-      return init({ apiKey, databaseURL }).database();
+      return init(options).database();
     } catch(e) {
       return new Error('Erro ao conectar ao banco de dados.');
     }
