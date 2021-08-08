@@ -3,9 +3,8 @@ const { initializeApp: init } = require('firebase');
 class FirebaseUtil {
   constructor(options) {
     if (!global.firebaseConnect && typeof options !== 'object') return new Error('Não é um objeto!');
-    let { apiKey, databaseURL } = options;
-    if (!global.firebaseConnect && !apiKey) return new TypeError('apiKey não foi definida!');
-    if (!global.firebaseConnect && !databaseURL) return new TypeError('databaseURL não foi definida!');
+    if (!global.firebaseConnect && !optionsmapiKey) return new TypeError('apiKey não foi definida!');
+    if (!global.firebaseConnect && !options.databaseURL) return new TypeError('databaseURL não foi definida!');
     
     this.db = this._connectToDatabase(options);
     this.version = require('./package.json').version;
