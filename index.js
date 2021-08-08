@@ -55,7 +55,8 @@ class FirebaseUtil {
     try {
       let value = await this.get(path);
       if (!value) return null;
-      return await this.db.ref(path).remove();
+      await this.db.ref(path).remove();
+      return true;
     } catch(e) {
       return new Error(e);
     }
@@ -66,8 +67,11 @@ class FirebaseUtil {
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     if (!value) return new TypeError('Você não definiu um valor!');
+    if (typeof value !== 'object') return new TypeError('O valor deve ser um objeto!');
+    
     try {
-      return await this.db.ref(path).update(value);
+      await this.db.ref(path).update(value);
+      return true;
     } catch(e) {
       return new Error(e);
     }
