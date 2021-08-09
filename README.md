@@ -110,7 +110,7 @@ const db = new FirebaseUtil({
   let values = await db.values('bucky');
   console.log(value); // [ 'fofo' ]
   
-  let values2 = await db.toJSON('bucky:);
+  let values2 = await db.toJSON('bucky');
   console.log(values2); // {"0":"fofo"}
 })();
 ```
