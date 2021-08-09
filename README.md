@@ -53,6 +53,7 @@ const db = new FirebaseUtil({
   await db.del('caminho');
   await db.keys('caminho');
   await db.value('caminho');
+  await db.toJSON('caminho');
   await db.entries('caminho');
   await db.set('caminho', 'valor');
   await db.upd('caminho', 'valor em objeto');
@@ -63,6 +64,12 @@ const db = new FirebaseUtil({
 # 👷 Exemplos:
 
 ```js
+const FirebaseUtil = require('firebase-util.js');
+const db = new FirebaseUtil({
+  apiKey: "...",
+  databaseURL: "..."
+});
+
 (async() => {
   let ping = await db.ping();
   console.log(ping); // Latência.
@@ -90,17 +97,20 @@ const db = new FirebaseUtil({
   
   await db.del('bucky'); // True
   
-  await db.push('bucky', 'fofo'); // ["fofo"]
+  await db.push('bucky', 'fofo'); // [ 'fofo' ]
   let val = await db.get('bucky');
-  console.log(val); // { 0: "fofo" }
+  console.log(val); // { 0: 'fofo' }
   
   let entries = await db.entries('bucky');
-  console.log(entries); // ["1", "fofo"]
+  console.log(entries); // [ [ 1', 'fofo' ] ]
   
   let keys = await db.entries('bucky');
-  console.log(keys); // ["1"]
+  console.log(keys); // [ '1' ]
   
   let values = await db.values('bucky');
-  console.log(value); // ["fofo"]
+  console.log(value); // [ 'fofo' ]
+  
+  let values2 = await db.toJSON('bucky:);
+  console.log(values2); // {"0":"fofo"}
 })();
 ```

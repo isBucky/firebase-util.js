@@ -14,6 +14,7 @@ class FirebaseUtil {
     this.math = this.Math; this.all = this.All;
     this.push = this.Push; this.entries = this.Entries;
     this.keys = this.Keys; this.values = this.Values;
+    this.toJSON = this.ToJSON;
   }
   
   _connectToDatabase(options) {
@@ -194,6 +195,18 @@ class FirebaseUtil {
     try {
       let values = await this.get(path);
       return Object.values(values ? values : {});
+    } catch(e) {
+      return new Error(e);
+    }
+  }
+  
+  async ToJSON(path) {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    try {
+      let values = await this.get(path);
+      return JSON.stringify(values);
     } catch(e) {
       return new Error(e);
     }
