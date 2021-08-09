@@ -37,8 +37,7 @@ class FirebaseUtil {
     if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
-    let value = await this.db.ref(path).once('value');
-    return value.val();
+    return this.db.ref(path).once('value').then(i => i.val());
   }
   
   async Set(path, value) {
@@ -135,8 +134,6 @@ class FirebaseUtil {
   
   async All() {
     if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
-    if (!path) return new TypeError('Você não definiu um caminho!');
-    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
       return await this.get('/');
     } catch(e) {
@@ -157,7 +154,7 @@ class FirebaseUtil {
       if (!num) num = 0;
       num = (num == 0 ? num : (num + 1)).toString();
       array.push(values);
-      await this.db.set(path + '/' + num, values);
+      await this.set(path + '/' + num, values);
       return array;
     } catch(e) {
       return new Error(e);
@@ -169,8 +166,7 @@ class FirebaseUtil {
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
-      let values = await this.get(path);
-      return Object.entries(values ? values : {});
+      return this.get(path).then(values => Object.entries(values ? values : {}));
     } catch(e) {
       return new Error(e);
     }
@@ -181,8 +177,7 @@ class FirebaseUtil {
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
-      let values = await this.get(path);
-      return Object.keys(values ? values : {});
+      return this.get(path).then(values => Object.keys(values ? values : {}));
     } catch(e) {
       return new Error(e);
     }
@@ -193,8 +188,7 @@ class FirebaseUtil {
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
-      let values = await this.get(path);
-      return Object.values(values ? values : {});
+      return this.get(path).then(values => Object.values(values ? values : {}));
     } catch(e) {
       return new Error(e);
     }
@@ -205,8 +199,7 @@ class FirebaseUtil {
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
-      let values = await this.get(path);
-      return JSON.stringify(values);
+      return this.get(path).then(i => JSON.stringify(i ? i : {}));
     } catch(e) {
       return new Error(e);
     }
