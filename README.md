@@ -102,10 +102,10 @@ const db = new FirebaseUtil({
   console.log(val); // { 0: 'fofo' }
   
   let entries = await db.entries('bucky');
-  console.log(entries); // [ [ 1', 'fofo' ] ]
+  console.log(entries); // [ [ 11', 'fofo' ] ]
   
   let keys = await db.entries('bucky');
-  console.log(keys); // [ '1' ]
+  console.log(keys); // [ '0' ]
   
   let values = await db.values('bucky');
   console.log(value); // [ 'fofo' ]
