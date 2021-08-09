@@ -11,7 +11,9 @@ class FirebaseUtil {
     this.ping = this.Ping; this.get = this.Get;
     this.set = this.Set; this.del = this.Delete;
     this.upd = this.Update; this.has = this.Has;
-    this.math = this.Math;
+    this.math = this.Math; this.all = this.All;
+    this.push = this.Push; this.entries = this.Entries;
+    this.keys = this.Keys; this.values = this.Values;
   }
   
   _connectToDatabase(options) {
@@ -127,6 +129,73 @@ class FirebaseUtil {
       default:
         throw new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
         break;
+    }
+  }
+  
+  async All() {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    try {
+      return await this.get('/');
+    } catch(e) {
+      return new Error(e);
+    }
+  }
+  
+  async Push(path, values) {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    if (!values) return new TypeError('Você não definiu um valor!');
+    try {
+      let 
+        val = await this.entries(path),
+        array = val.map(([key, value]) => value),
+        num = Number(val.map(([key]) => key)[array.length - 1]);
+      if (!num) num = 0;
+      num = (num == 0 ? num : (num + 1)).toString();
+      array.push(values);
+      await this.db.set(path + '/' + num, values);
+      return array;
+    } catch(e) {
+      return new Error(e);
+    }
+  }
+  
+  async Entries(path) {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    try {
+      let values = await this.get(path);
+      return Object.entries(values ? values : {});
+    } catch(e) {
+      return new Error(e);
+    }
+  }
+  
+  async Keys(path) {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    try {
+      let values = await this.get(path);
+      return Object.keys(values ? values : {});
+    } catch(e) {
+      return new Error(e);
+    }
+  }
+  
+  async Values(path) {
+    if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
+    if (!path) return new TypeError('Você não definiu um caminho!');
+    if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
+    try {
+      let values = await this.get(path);
+      return Object.values(values ? values : {});
+    } catch(e) {
+      return new Error(e);
     }
   }
 }

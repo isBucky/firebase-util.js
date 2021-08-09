@@ -35,8 +35,8 @@ const db = new FirebaseUtil({
 ```js
 const FirebaseUtil = require('firebase-util.js');
 const db = new FirebaseUtil({
-  apiKey: '...',
-  databaseURL: '...'
+  apiKey: "...",
+  databaseURL: "..."
 });
 ```
 
@@ -45,21 +45,30 @@ const db = new FirebaseUtil({
 # 🧰 Funções:
 ```js
 (async() => {
+  await db.all();
   await db.ping();
+  await db.push();
   await db.get('caminho');
-  await db.set('caminho', 'valor');
-  await db.del('caminho');
-  await db.upd('caminho', 'valor em objeto');
   await db.has('caminho');
+  await db.del('caminho');
+  await db.keys('caminho');
+  await db.value('caminho');
+  await db.entries('caminho');
+  await db.set('caminho', 'valor');
+  await db.upd('caminho', 'valor em objeto');
   await db.math('caminho', 'operador', 'valor numérico');
 })();
 ```
 
 # 👷 Exemplos:
+
 ```js
 (async() => {
   let ping = await db.ping();
   console.log(ping); // Latência.
+  
+  let all = await db.all();
+  console.log(all); // {...}
   
   await db.set('bucky/money', 50); // True
   let money = await db.get('bucky/money');
@@ -80,4 +89,18 @@ const db = new FirebaseUtil({
   console.log(money4); // True
   
   await db.del('bucky'); // True
-})();```
+  
+  await db.push('bucky', 'fofo'); // ["fofo"]
+  let val = await db.get('bucky');
+  console.log(val); // { 0: "fofo" }
+  
+  let entries = await db.entries('bucky');
+  console.log(entries); // ["1", "fofo"]
+  
+  let keys = await db.entries('bucky');
+  console.log(keys); // ["1"]
+  
+  let values = await db.values('bucky');
+  console.log(value); // ["fofo"]
+})();
+```
