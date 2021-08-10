@@ -101,6 +101,8 @@ class FirebaseUtil {
     
     if(!callback) return new TypeError('Você precisa inserir uma função de callback!');
     
+    if(typeof callback !== 'function') return new TypeError('O parâmetro callback precisa ser uma função!');
+    
     try {
       const val = await this.get(path);
       
