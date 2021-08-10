@@ -11,7 +11,7 @@ class FirebaseUtil {
     this.ping = this.Ping; this.get = this.Get;
     this.set = this.Set; this.del = this.Delete;
     this.upd = this.Update; this.has = this.Has;
-    this.math = this.Math; this.all = this.All;
+    this.Transaction = this.transaction;
     this.push = this.Push; this.entries = this.Entries;
     this.keys = this.Keys; this.values = this.Values;
     this.toJSON = this.ToJSON;
@@ -86,49 +86,29 @@ class FirebaseUtil {
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     try {
       let value = await this.get(path);
-      if (!value) return null;
+      if (!value) return false;
       else return true;
     } catch(e) {
       return new Error(e);
     }
   }
   
-  async Math(path, simbol, number) {
+  async transaction(path, callback) {
     if (!this.db) return new Error('O banco de dados não está conectado para executar esta ação!');
     if (!path) return new TypeError('Você não definiu um caminho!');
+    
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
-    if (!simbol) return new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
-    if (typeof simbol !== 'string') return new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
-    if (!number) return new TypeError('Você não definiu um valor!');
-    if (isNaN(number)) return new TypeError('O valor definido não é um número!');
-    switch (simbol) {
-      case '+':
-        let val1 = await this.get(path);
-        if (!val1) val1 = 0;
-        this.set(path, Number(val1) + Number(number));
-        return Number(val1) + Number(number);
-        break;
-      case '-':
-        let val2 = await this.get(path);
-        if (!val2) val2 = 0;
-        this.set(path, Number(val2) - Number(number));
-        return Number(val2) - Number(number);
-        break;
-      case '/':
-        let val3 = await this.get(path);
-        if (!val3) val3 = 0;
-        this.set(path, Number(val3) / Number(number));
-        return Number(val3) / Number(number);
-        break;
-      case '*':
-        let val4 = await this.get(path);
-        if (!val4) val4 = 0;
-        this.set(path, Number(val4) * Number(number));
-        return Number(val4) * Number(number);
-        break;
-      default:
-        throw new TypeError('Você não definiu um operador válido. Operadores: +, -, /, *, %');
-        break;
+    
+    if(!callback) return new TypeError('Você precisa inserir uma função de callback!');
+    
+    try {
+      const val = await this.get(path);
+      
+      const callResult = await callback(val);
+      
+      return this.set(path, callResult);
+    } catch(err) {
+        return new Error(e);
     }
   }
   
@@ -147,15 +127,15 @@ class FirebaseUtil {
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     if (!values) return new TypeError('Você não definiu um valor!');
     try {
-      let 
-        val = await this.entries(path),
-        array = val.map(([key, value]) => value),
-        num = Number(val.map(([key]) => key)[array.length - 1]);
-      if (!num) num = 0;
-      num = (num == 0 ? num : (num + 1)).toString();
-      array.push(values);
-      await this.set(path + '/' + num, values);
-      return array;
+      const val = await this.get(path);
+      
+      if(!Array.isArray(val)) return new TypeError('Você não pode dar push em algo que não é um Array!');
+      
+      val.push(...values);
+      
+      await this.set(path, val);
+      
+      return val;
     } catch(e) {
       return new Error(e);
     }
