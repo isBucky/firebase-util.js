@@ -181,11 +181,11 @@ class FirebaseUtil {
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     if (!values) return new TypeError('Você não definiu um valor!');
     try {
-      let val = await db.get(path);
+      let val = await this.get(path);
       if (!Array.isArray(val)) val = [];
       values = Array.isArray(values) ? values : [values];
       val.push(...values);
-      await db.set(path, val);
+      await this.set(path, val);
       return val;
     } catch(err) {
       return new Error(err);
