@@ -1,3 +1,5 @@
+'use strict';
+
 const 
   { initializeApp: init, database } = require('firebase'),
   SymbolDB = Symbol('Firebase');

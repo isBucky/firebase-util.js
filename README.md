@@ -47,7 +47,6 @@ const db = new FirebaseUtil({
 (async() => {
   await db.all();
   await db.ping();
-  await db.push();
   await db.get('caminho');
   await db.has('caminho');
   await db.del('caminho');
@@ -56,6 +55,7 @@ const db = new FirebaseUtil({
   await db.toJSON('caminho');
   await db.entries('caminho');
   await db.set('caminho', 'valor');
+  await db.push('caminho', 'valores');
   await db.upd('caminho', 'valor em objeto');
   await db.transaction('caminho', 'callback');
   await db.math('caminho', 'operadores aritméticos', 'valor');
@@ -121,3 +121,8 @@ const db = new FirebaseUtil({
   console.log(values2); // {"0":"fofo"}
 })();
 ```
+
+# 📦 Async / Await
+A npm é construída com funções asincronas.
+Elas serão melhores utilizadas com o uso de async/await para resolver a promise.
+Saiba mais na documentação oficial da Mozilla: [Async/Await](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/await)
