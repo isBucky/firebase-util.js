@@ -1,19 +1,4 @@
-<div align="center">
-  <h1>firebase-util.js</h1>
-  <p>Uma simples npm que facilita a utilidade de uso da firebase database realtime.</p>
-  <p>
-    <a href="https://www.npmjs.com/package/firebase-util.js"><img src="https://img.shields.io/npm/v/firebase-util.js?maxAge=3600" alt="NPM version" /></a>
-    <a href="https://www.npmjs.com/package/firebase-util.js"><img src="https://img.shields.io/npm/dt/firebase-util.js?maxAge=3600" alt="NPM downloads" /></a>
-  </p>
-  <p>
-    <a href="https://www.npmjs.com/package/firebase-util.js"><img src="https://nodei.co/npm/firebase-util.js.png?downloads=true&stars=true" alt="NPM Banner"></a>
-  </p>
-</div>
 
-# 📦 Instalação:
-```sh
-npm i firebase-util.js
-```
 # 📡 Conexão:
 ### Existe dois tipos de conexão com a database:
 #### Primeira opção:
@@ -58,6 +43,7 @@ const db = new FirebaseUtil({
   await db.set('caminho', 'valor');
   await db.upd('caminho', 'valor em objeto');
   await db.transaction('caminho', 'callback');
+  await db.math('caminho', 'operadores aritméticos', 'valor');
 })();
 ```
 
@@ -90,6 +76,13 @@ const db = new FirebaseUtil({
   });
   let money3 = await db.get('bucky/money');
   console.log(money3); // 150
+  
+  await db.math('bucky/money', '+', 50); // 200
+  await db.math('bucky/money', '-', 20); // 180
+  await db.math('bucky/money', '/', 2); // 90
+  await db.math('bucky/money', '*', 4); // 360
+  let money3 = await db.get('bucky/money');
+  console.log(money3); // 360
   
   let money4 = await db.has('bucky/money');
   console.log(money4); // True
