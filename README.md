@@ -106,19 +106,19 @@ const db = new FirebaseUtil({
   
   await db.push('bucky', 'fofo'); // [ 'fofo' ]
   let val = await db.get('bucky');
-  console.log(val); // { 0: 'fofo' }
+  console.log(val); // [ 'fofo' ]
   
   let entries = await db.entries('bucky');
   console.log(entries); // [ [ '1', 'fofo' ] ]
   
-  let keys = await db.entries('bucky');
+  let keys = await db.keys('bucky');
   console.log(keys); // [ '0' ]
   
   let values = await db.values('bucky');
   console.log(value); // [ 'fofo' ]
   
   let values2 = await db.toJSON('bucky');
-  console.log(values2); // {"0":"fofo"}
+  console.log(values2); // ["fofo"]
 })();
 ```
 
