@@ -24,7 +24,7 @@ class FirebaseUtil {
     this.toJSON = this.ToJSON;
     this.entries = this.Entries;
     this.transaction = this.Transaction;
-    this.db = connect(options);
+    this[SymbolDB] = connect(options);
     
     function connect(options) {
       try {
