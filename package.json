@@ -1,6 +1,6 @@
 {
   "name": "firebase-util.js",
-  "version": "4.0.5",
+  "version": "4.1.0",
   "description": "Npm feita com o intuito de facilitar o manuseio da firebase realtime database.",
   "main": "index.js",
   "repository": {
