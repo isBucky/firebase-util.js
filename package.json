@@ -1,6 +1,6 @@
 {
   "name": "firebase-util.js",
-  "version": "4.0.2",
+  "version": "4.0.5",
   "description": "Npm feita com o intuito de facilitar o manuseio da firebase realtime database.",
   "main": "index.js",
   "repository": {
@@ -11,7 +11,7 @@
     "firebase", "firebase-util", "firebase-utility",
     "fb", "util", "db", "database", "firebase-util.js"
   ],
-  "author": "B4CKY0FC",
+  "author": "@bucky_ofc",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/B4CKY0FC/firebase-util.js/issues"
