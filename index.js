@@ -1,7 +1,6 @@
 'use strict';
 
-const { initializeApp: init, database } = require('firebase'),
-  SymbolDB = Symbol('Firebase');
+const { initializeApp: init, database } = require('firebase'), SymbolDB = Symbol('Firebase');
 
 class FirebaseUtil {
   constructor(options) {
@@ -64,7 +63,7 @@ class FirebaseUtil {
     if (!this[SymbolDB]) return new Error('O banco de dados não está conectado para executar esta ação!');
     if (!path) return new TypeError('Você não definiu um caminho!');
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
-    if (!value) return new TypeError('Você não definiu um valor!');
+    if (!value && value !== 0) return new TypeError('Você não definiu um valor!');
     try {
       await this[SymbolDB].ref(path).set(value);
       return value;
@@ -117,7 +116,7 @@ class FirebaseUtil {
     if (typeof path !== 'string') return new TypeError('O caminho tem que ser string');
     if (!simbol) return new TypeError('Você não definiu um operador válido. Operadores: +, -, / e *.');
     if (typeof simbol !== 'string') return new TypeError('Você não definiu um operador válido. Operadores: +, -, / e *.');
-    if (!value) return new TypeError('Você não definiu um valor!');
+    if (!value && value !== 0) return new TypeError('Você não definiu um valor!');
     if (isNaN(value)) return new TypeError('O valor definido não é um número!');
     try {
       switch (simbol) {
